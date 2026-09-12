@@ -1,0 +1,6 @@
+{
+  "name": "Trang Web Nịnh Người Yêu",
+  "description": "Blog hình ảnh phong cách vintage, Instagram & Pinterest của Quốc Bảo & Lại Huệ lưu giữ cuộn phim, khoảnh khắc ngọt ngào và giai điệu acoustic chill.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

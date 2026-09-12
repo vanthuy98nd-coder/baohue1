@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-serif: 'Playfair Display', serif;
+    --font-cormorant: 'Cormorant Garamond', serif;
+    --font-sans: 'Quicksand', 'Plus Jakarta Sans', sans-serif;
+    --font-handwriting: 'Dancing Script', 'Caveat', cursive;
+  }
+  body {
+    font-family: 'Quicksand', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+}
+
+.font-serif-display {
+  font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+}
+
+.font-cormorant {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+.font-handwriting {
+  font-family: 'Dancing Script', 'Caveat', cursive, sans-serif;
+}
+
+.font-quicksand {
+  font-family: 'Quicksand', 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Glassmorphism Classes */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 10px 30px -5px rgba(0, 77, 109, 0.07), 0 4px 12px -2px rgba(232, 180, 184, 0.12);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+}
+
+.glass-pill {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+/* Polaroid tape & shadow styling */
+.polaroid-shadow {
+  box-shadow: 0 8px 24px -4px rgba(0, 50, 75, 0.12), 0 2px 8px -2px rgba(232, 180, 184, 0.2);
+}
+
+.polaroid-shadow-hover {
+  box-shadow: 0 16px 36px -6px rgba(0, 50, 75, 0.18), 0 6px 16px -2px rgba(255, 183, 197, 0.3);
+}
+
+/* Custom Washi tape textures */
+.washi-tape-mint {
+  background: linear-gradient(135deg, rgba(200, 240, 235, 0.75) 0%, rgba(180, 230, 220, 0.85) 100%);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-left: 2px dashed rgba(255, 255, 255, 0.6);
+  border-right: 2px dashed rgba(255, 255, 255, 0.6);
+}
+
+.washi-tape-sakura {
+  background: linear-gradient(135deg, rgba(255, 215, 225, 0.8) 0%, rgba(245, 195, 210, 0.85) 100%);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-left: 2px dashed rgba(255, 255, 255, 0.6);
+  border-right: 2px dashed rgba(255, 255, 255, 0.6);
+}
+
+.washi-tape-ocean {
+  background: linear-gradient(135deg, rgba(180, 220, 245, 0.8) 0%, rgba(140, 200, 230, 0.85) 100%);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-left: 2px dashed rgba(255, 255, 255, 0.6);
+  border-right: 2px dashed rgba(255, 255, 255, 0.6);
+}
+
+/* Vinyl record styling */
+.vinyl-disc {
+  background: radial-gradient(circle, #1a1a1a 0%, #111111 40%, #222222 45%, #111111 50%, #262626 55%, #0f0f0f 70%, #080808 100%);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35), inset 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 14s linear infinite;
+}
+
+/* Custom smooth scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.2);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 105, 148, 0.25);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 105, 148, 0.45);
+}
