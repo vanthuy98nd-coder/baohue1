@@ -22,6 +22,7 @@ import {
   type FirebaseStorage,
 } from 'firebase/storage';
 import type { PhotoItem, StoryItem, GuestbookEntry, FirebaseConfigData, MusicTrack } from '../types';
+import { INITIAL_PHOTOS, INITIAL_GUESTBOOK } from '../data/initialData';
 
 const STORAGE_KEY_FIREBASE_CONFIG = 'baohue_firebase_config';
 
@@ -197,23 +198,22 @@ export async function likePhotoItem(photoId: string): Promise<void> {
 }
 
 export async function deletePhotoItem(photoId: string): Promise<void> {
-  if (db && isFirebaseConnected() && !photoId.startsWith('p_')) {
+  if (db && isFirebaseConnected()) {
     try {
       await deleteDoc(doc(db, 'photos', photoId));
-      return;
     } catch (e) {
       console.warn('Firestore delete failed:', e);
     }
   }
-  const current = getLocalPhotos();
+  const current = getLocalPhotos(INITIAL_PHOTOS);
   const updated = current.filter((p) => p.id !== photoId);
   saveLocalPhotos(updated);
 }
 
-export function getLocalPhotos(fallback: PhotoItem[] = []): PhotoItem[] {
+export function getLocalPhotos(fallback: PhotoItem[] = INITIAL_PHOTOS): PhotoItem[] {
   try {
     const raw = localStorage.getItem(LOCAL_PHOTOS_KEY);
-    if (raw) {
+    if (raw !== null) {
       return JSON.parse(raw);
     }
   } catch (e) {
@@ -255,7 +255,7 @@ export async function addGuestbookEntry(
     }
   }
 
-  const existing = getLocalGuestbook();
+  const existing = getLocalGuestbook(INITIAL_GUESTBOOK);
   const updated = [newEntry, ...existing];
   saveLocalGuestbook(updated);
   return newEntry;
@@ -263,7 +263,7 @@ export async function addGuestbookEntry(
 
 export function subscribeToGuestbook(
   callback: (entries: GuestbookEntry[]) => void,
-  initialFallback: GuestbookEntry[]
+  initialFallback: GuestbookEntry[] = INITIAL_GUESTBOOK
 ): Unsubscribe | (() => void) {
   if (db && isFirebaseConnected()) {
     try {
@@ -276,7 +276,7 @@ export function subscribeToGuestbook(
           })) as GuestbookEntry[];
           callback(list);
         } else {
-          callback(initialFallback);
+          callback(getLocalGuestbook(initialFallback));
         }
       }, (err) => {
         console.warn('Firestore guestbook error:', err);
@@ -294,7 +294,7 @@ export function subscribeToGuestbook(
 }
 
 export async function deleteGuestbookEntry(entryId: string): Promise<void> {
-  if (db && isFirebaseConnected() && !entryId.startsWith('g_')) {
+  if (db && isFirebaseConnected()) {
     try {
       await deleteDoc(doc(db, 'guestbook', entryId));
     } catch (e) {
@@ -302,15 +302,17 @@ export async function deleteGuestbookEntry(entryId: string): Promise<void> {
     }
   }
 
-  const current = getLocalGuestbook();
+  const current = getLocalGuestbook(INITIAL_GUESTBOOK);
   const updated = current.filter((item) => item.id !== entryId);
   saveLocalGuestbook(updated);
 }
 
-export function getLocalGuestbook(fallback: GuestbookEntry[] = []): GuestbookEntry[] {
+export function getLocalGuestbook(fallback: GuestbookEntry[] = INITIAL_GUESTBOOK): GuestbookEntry[] {
   try {
     const raw = localStorage.getItem(LOCAL_GUESTBOOK_KEY);
-    if (raw) return JSON.parse(raw);
+    if (raw !== null) {
+      return JSON.parse(raw);
+    }
   } catch (e) {
     console.error(e);
   }

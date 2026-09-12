@@ -50,6 +50,7 @@ export const AdminPlaylistModal: React.FC<AdminPlaylistModalProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
+  const [trackToDeleteId, setTrackToDeleteId] = useState<string | null>(null);
 
   if (!isOpen) return null;
 
@@ -95,11 +96,10 @@ export const AdminPlaylistModal: React.FC<AdminPlaylistModalProps> = ({
     }
   };
 
-  const handleDelete = async (trackId: string, trackTitle: string) => {
-    if (confirm(`Bạn có chắc muốn xóa bài "${trackTitle}" khỏi danh sách phát?`)) {
-      await deleteMusicTrackFromFirebase(trackId);
-      if (onPlaylistChanged) onPlaylistChanged();
-    }
+  const handleDelete = async (trackId: string) => {
+    await deleteMusicTrackFromFirebase(trackId);
+    setTrackToDeleteId(null);
+    if (onPlaylistChanged) onPlaylistChanged();
   };
 
   return (
@@ -351,14 +351,33 @@ export const AdminPlaylistModal: React.FC<AdminPlaylistModalProps> = ({
                     )}
 
                     {/* Delete button (Admin only) */}
-                    <button
-                      type="button"
-                      onClick={() => handleDelete(track.id, track.title)}
-                      className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors"
-                      title="Xóa bài hát"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
+                    {trackToDeleteId === track.id ? (
+                      <div className="flex items-center gap-1">
+                        <button
+                          type="button"
+                          onClick={() => handleDelete(track.id)}
+                          className="px-2 py-0.5 text-[10px] font-semibold text-white bg-rose-600 hover:bg-rose-700 rounded shadow-xs"
+                        >
+                          Xóa
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setTrackToDeleteId(null)}
+                          className="px-2 py-0.5 text-[10px] text-slate-600 hover:bg-slate-100 rounded"
+                        >
+                          Hủy
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => setTrackToDeleteId(track.id)}
+                        className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors"
+                        title="Xóa bài hát"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    )}
                   </div>
                 </div>
               );

@@ -60,11 +60,11 @@ export const App: React.FC = () => {
   // Realtime subscriptions
   useEffect(() => {
     const unsubPhotos = subscribeToPhotos((list) => {
-      if (list && list.length > 0) setPhotos(list);
+      if (list) setPhotos(list);
     }, INITIAL_PHOTOS);
 
     const unsubGuestbook = subscribeToGuestbook((list) => {
-      if (list && list.length > 0) setGuestbook(list);
+      if (list) setGuestbook(list);
     }, INITIAL_GUESTBOOK);
 
     const unsubPlaylist = subscribeToPlaylist((tracks) => {
@@ -277,6 +277,7 @@ export const App: React.FC = () => {
           isAdmin={isAdmin}
           onEntryAdded={handleEntryAdded}
           onDeleteEntry={handleDeleteGuestbookEntry}
+          onOpenAdminLogin={() => setIsAdminLoginOpen(true)}
         />
       </main>
 

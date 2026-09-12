@@ -7,9 +7,11 @@ import {
   User,
   Users,
   Trash2,
-  ShieldAlert,
   ShieldCheck,
   AlertCircle,
+  Lock,
+  CheckCircle2,
+  X,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import type { GuestbookEntry } from '../types';
@@ -20,6 +22,7 @@ interface GuestbookSectionProps {
   isAdmin?: boolean;
   onEntryAdded: (entry: GuestbookEntry) => void;
   onDeleteEntry?: (id: string) => void;
+  onOpenAdminLogin?: () => void;
 }
 
 // Basic list of offensive / spam patterns to prevent vandalism
@@ -33,6 +36,7 @@ export const GuestbookSection: React.FC<GuestbookSectionProps> = ({
   isAdmin = false,
   onEntryAdded,
   onDeleteEntry,
+  onOpenAdminLogin,
 }) => {
   const [name, setName] = useState('');
   const [relationship, setRelationship] = useState('Bạn bè thân thiết');
@@ -41,6 +45,11 @@ export const GuestbookSection: React.FC<GuestbookSectionProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [warningMsg, setWarningMsg] = useState('');
   const [likedEntries, setLikedEntries] = useState<Record<string, boolean>>({});
+
+  // In-app deletion modal state (replaces window.confirm to avoid iframe sandbox blocking)
+  const [entryToDelete, setEntryToDelete] = useState<GuestbookEntry | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [successToast, setSuccessToast] = useState<string | null>(null);
 
   const stickers = ['🌸', '💖', '📷', '✨', '☕', '💌', '🌿', '🕊️'];
 
@@ -95,15 +104,22 @@ export const GuestbookSection: React.FC<GuestbookSectionProps> = ({
     }
   };
 
-  const handleDelete = async (entry: GuestbookEntry) => {
-    const confirmed = window.confirm(
-      `[ADMIN] Bạn có chắc muốn xóa vĩnh viễn lời chúc của "${entry.name}" không?\n\nNội dung: "${entry.message}"`
-    );
-    if (confirmed) {
-      await deleteGuestbookEntry(entry.id);
+  const handleConfirmDelete = async () => {
+    if (!entryToDelete) return;
+    setIsDeleting(true);
+    try {
+      await deleteGuestbookEntry(entryToDelete.id);
       if (onDeleteEntry) {
-        onDeleteEntry(entry.id);
+        onDeleteEntry(entryToDelete.id);
       }
+      setSuccessToast(`Đã xóa thành công lời chúc của "${entryToDelete.name}".`);
+      setTimeout(() => setSuccessToast(null), 3500);
+      setEntryToDelete(null);
+    } catch (err) {
+      console.error('Delete guestbook entry failed:', err);
+      setWarningMsg('Không thể xóa lời chúc. Vui lòng kiểm tra lại kết nối.');
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -112,7 +128,103 @@ export const GuestbookSection: React.FC<GuestbookSectionProps> = ({
   };
 
   return (
-    <section id="guestbook-section" className="w-full my-12">
+    <section id="guestbook-section" className="w-full my-12 relative">
+      {/* Delete Success Toast Notification */}
+      {successToast && (
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-4 py-3 bg-emerald-600 text-white text-xs font-semibold rounded-2xl shadow-xl animate-fade-in">
+          <CheckCircle2 className="w-4 h-4 text-emerald-200 flex-shrink-0" />
+          <span>{successToast}</span>
+          <button
+            type="button"
+            onClick={() => setSuccessToast(null)}
+            className="ml-1 p-0.5 hover:bg-emerald-700 rounded-full"
+          >
+            <X className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      )}
+
+      {/* Confirmation Modal for Wish Deletion */}
+      {entryToDelete && (
+        <div
+          id="delete-wish-modal-backdrop"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+          onClick={() => !isDeleting && setEntryToDelete(null)}
+        >
+          <div
+            className="glass-panel w-full max-w-md rounded-3xl p-6 sm:p-7 shadow-2xl relative animate-scale-up"
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: 'rgba(255, 255, 255, 0.96)',
+              backdropFilter: 'blur(16px)',
+            }}
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-2xl bg-rose-100 flex items-center justify-center text-rose-600 flex-shrink-0">
+                <Trash2 className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-serif-display font-bold text-lg text-slate-800">
+                  Xác nhận xóa lời chúc?
+                </h3>
+                <p className="text-xs text-slate-500">
+                  Thao tác kiểm duyệt với tư cách Quản trị viên (Admin)
+                </p>
+              </div>
+            </div>
+
+            {/* Preview of the entry being deleted */}
+            <div className="p-3.5 rounded-2xl bg-rose-50/60 border border-rose-100 text-xs mb-5">
+              <div className="flex items-center justify-between font-semibold text-slate-800 mb-1">
+                <span>{entryToDelete.name}</span>
+                <span className="text-slate-500 font-normal text-[11px]">{entryToDelete.relationship}</span>
+              </div>
+              <p className="font-handwriting text-lg text-slate-700 italic line-clamp-3 my-1">
+                "{entryToDelete.message}"
+              </p>
+              <div className="text-[10px] text-slate-400 mt-1">
+                Ngày gửi: {entryToDelete.date}
+              </div>
+            </div>
+
+            <p className="text-xs text-slate-600 mb-5 leading-relaxed">
+              Bạn có chắc chắn muốn xóa vĩnh viễn lời chúc này khỏi sổ lưu bút không? Thao tác này không thể hoàn tác.
+            </p>
+
+            {/* Action buttons */}
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                disabled={isDeleting}
+                onClick={() => setEntryToDelete(null)}
+                className="flex-1 py-2.5 px-4 text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors cursor-pointer disabled:opacity-50"
+              >
+                Hủy bỏ
+              </button>
+              <button
+                id="btn-confirm-delete-wish"
+                type="button"
+                disabled={isDeleting}
+                onClick={handleConfirmDelete}
+                className="flex-1 py-2.5 px-4 text-xs font-semibold text-white bg-rose-600 hover:bg-rose-700 rounded-xl shadow-md transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+              >
+                {isDeleting ? (
+                  <>
+                    <Sparkles className="w-3.5 h-3.5 animate-spin" />
+                    <span>Đang xóa...</span>
+                  </>
+                ) : (
+                  <>
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span>Xóa vĩnh viễn</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="max-w-5xl mx-auto px-4">
         {/* Section Title */}
         <div className="text-center mb-8">
@@ -127,19 +239,36 @@ export const GuestbookSection: React.FC<GuestbookSectionProps> = ({
             Dành tặng Quốc Bảo &amp; Lại Huệ những lời chúc, nhắn nhủ ngọt ngào nhất của bạn nhé!
           </p>
 
-          {/* Admin Mode Badge Notice */}
-          {isAdmin && (
-            <div className="mt-3 inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-medium animate-fade-in">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+          {/* Admin Mode Status Banner */}
+          {isAdmin ? (
+            <div className="mt-3 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs font-medium shadow-xs animate-fade-in">
+              <ShieldCheck className="w-4 h-4 text-emerald-600 flex-shrink-0" />
               <span>
-                Quyền Admin đang bật: Bạn có toàn quyền kiểm duyệt và bấm nút <strong>Xóa</strong> bất kỳ lời chúc nào không mong muốn.
+                <strong>Quyền Admin đang bật:</strong> Nút <span className="text-rose-600 font-bold bg-rose-50 px-1.5 py-0.5 rounded">Xóa lời chúc</span> màu đỏ đã xuất hiện dưới mỗi tin nhắn để bạn kiểm duyệt.
+              </span>
+            </div>
+          ) : (
+            <div className="mt-3 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-100/90 border border-slate-200 text-slate-600 text-xs">
+              <Lock className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
+              <span>
+                Cô dâu / chú rể muốn quản lý hoặc xóa lời chúc?{' '}
+                {onOpenAdminLogin && (
+                  <button
+                    type="button"
+                    onClick={onOpenAdminLogin}
+                    className="text-[#006994] font-semibold hover:underline cursor-pointer"
+                  >
+                    Đăng nhập Admin tại đây
+                  </button>
+                )}{' '}
+                (Pass: <code className="font-mono text-[11px] bg-white px-1 py-0.5 rounded border border-slate-300">baohue2026</code>)
               </span>
             </div>
           )}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Form to leave a wish (4 cols) */}
+          {/* Form to leave a wish (5 cols) */}
           <div className="lg:col-span-5">
             <div
               className="glass-panel rounded-3xl p-6 sm:p-7 shadow-md relative"
@@ -211,7 +340,7 @@ export const GuestbookSection: React.FC<GuestbookSectionProps> = ({
                         key={stk}
                         type="button"
                         onClick={() => setSelectedSticker(stk)}
-                        className={`w-8 h-8 rounded-xl flex items-center justify-center text-base transition-all ${
+                        className={`w-8 h-8 rounded-xl flex items-center justify-center text-base transition-all cursor-pointer ${
                           selectedSticker === stk
                             ? 'bg-[#006994] text-white scale-110 shadow-xs'
                             : 'bg-white/80 hover:bg-white border border-slate-200'
@@ -297,19 +426,19 @@ export const GuestbookSection: React.FC<GuestbookSectionProps> = ({
                         "{entry.message}"
                       </p>
 
-                      <div className="flex items-center justify-between pt-2 border-t border-slate-100 text-[11px] text-slate-400">
+                      <div className="flex items-center justify-between pt-2.5 border-t border-slate-100 text-[11px] text-slate-400">
                         <span>{entry.date}</span>
 
-                        <div className="flex items-center gap-3">
-                          {/* Admin Delete Button */}
+                        <div className="flex items-center gap-2.5">
+                          {/* Admin Delete Button - Opens In-App Modal */}
                           {isAdmin && (
                             <button
                               type="button"
-                              onClick={() => handleDelete(entry)}
-                              className="text-rose-500 hover:text-rose-700 flex items-center gap-1 font-medium bg-rose-50 hover:bg-rose-100 px-2.5 py-1 rounded-lg transition-colors"
-                              title="Xóa lời chúc này (Quyền Admin)"
+                              onClick={() => setEntryToDelete(entry)}
+                              className="text-rose-600 hover:text-rose-800 flex items-center gap-1.5 font-semibold bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3 py-1 rounded-xl transition-all cursor-pointer shadow-2xs"
+                              title="Xóa lời chúc này khỏi sổ lưu bút"
                             >
-                              <Trash2 className="w-3.5 h-3.5" />
+                              <Trash2 className="w-3.5 h-3.5 text-rose-600" />
                               <span>Xóa lời chúc</span>
                             </button>
                           )}
@@ -318,8 +447,8 @@ export const GuestbookSection: React.FC<GuestbookSectionProps> = ({
                           <button
                             type="button"
                             onClick={() => handleLikeEntry(entry.id)}
-                            className={`flex items-center gap-1 transition-colors ${
-                              isLiked ? 'text-rose-500 font-medium' : 'hover:text-rose-500'
+                            className={`flex items-center gap-1 transition-colors px-2 py-1 rounded-lg cursor-pointer ${
+                              isLiked ? 'text-rose-500 font-medium bg-rose-50/50' : 'hover:text-rose-500'
                             }`}
                           >
                             <Heart className={`w-3.5 h-3.5 ${isLiked ? 'fill-rose-500' : ''}`} />

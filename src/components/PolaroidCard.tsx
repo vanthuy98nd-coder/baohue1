@@ -20,6 +20,7 @@ export const PolaroidCard: React.FC<PolaroidCardProps> = ({
 }) => {
   const [isLikedLocally, setIsLikedLocally] = useState(false);
   const [likesCount, setLikesCount] = useState(photo.likes || 0);
+  const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
 
   const handleLike = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -155,19 +156,46 @@ export const PolaroidCard: React.FC<PolaroidCardProps> = ({
           {/* Admin delete action */}
           {isAdmin && onDeletePhoto && (
             <div className="mt-2.5 pt-2 border-t border-dashed border-rose-200 flex justify-end">
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (window.confirm(`Xóa bức ảnh "${photo.title}"?`)) {
-                    onDeletePhoto(photo.id);
-                  }
-                }}
-                className="flex items-center gap-1 text-[11px] text-rose-600 hover:text-rose-800 hover:bg-rose-50 px-2 py-0.5 rounded transition-colors"
-              >
-                <Trash2 className="w-3 h-3" />
-                <span>Xóa ảnh (Admin)</span>
-              </button>
+              {isConfirmingDelete ? (
+                <div
+                  className="flex items-center gap-1.5 text-[11px] animate-fade-in"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <span className="text-slate-600 font-medium">Xóa ảnh này?</span>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onDeletePhoto(photo.id);
+                    }}
+                    className="bg-rose-600 hover:bg-rose-700 text-white font-semibold px-2.5 py-0.5 rounded shadow-2xs cursor-pointer"
+                  >
+                    Xóa
+                  </button>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsConfirmingDelete(false);
+                    }}
+                    className="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2 py-0.5 rounded cursor-pointer"
+                  >
+                    Hủy
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsConfirmingDelete(true);
+                  }}
+                  className="flex items-center gap-1 text-[11px] text-rose-600 hover:text-rose-800 hover:bg-rose-50 px-2 py-0.5 rounded transition-colors cursor-pointer"
+                >
+                  <Trash2 className="w-3 h-3" />
+                  <span>Xóa ảnh (Admin)</span>
+                </button>
+              )}
             </div>
           )}
         </div>

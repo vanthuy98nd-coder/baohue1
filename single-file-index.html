@@ -1028,6 +1028,18 @@
     </div>
   </div>
 
+  <!-- MODAL: Delete Confirmation -->
+  <div class="modal-overlay" id="modal-delete-confirm" onclick="closeDeleteConfirmModal()">
+    <div class="modal-card" style="max-width: 420px; text-align: center;" onclick="event.stopPropagation()">
+      <h3 class="modal-title font-serif" id="del-title" style="color: #E11D48;">Xác Nhận Xóa</h3>
+      <p class="modal-desc" id="del-desc" style="margin-bottom: 24px;">Bạn có chắc chắn muốn xóa mục này không? Thao tác không thể hoàn tác.</p>
+      <div style="display: flex; gap: 12px; justify-content: center;">
+        <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="closeDeleteConfirmModal()">Hủy bỏ</button>
+        <button type="button" class="btn" style="flex: 1; background: #E11D48; color: white;" id="btn-do-delete">Xác nhận xóa</button>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL: Lightbox -->
   <div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
     <div class="lightbox-content" onclick="event.stopPropagation()">
@@ -1387,25 +1399,43 @@
       }
     }
 
+    let pendingDeleteAction = null;
+    function openDeleteConfirm(title, desc, onConfirm) {
+      document.getElementById('del-title').textContent = title;
+      document.getElementById('del-desc').textContent = desc;
+      pendingDeleteAction = onConfirm;
+      document.getElementById('modal-delete-confirm').classList.add('active');
+    }
+    function closeDeleteConfirmModal() {
+      document.getElementById('modal-delete-confirm').classList.remove('active');
+      pendingDeleteAction = null;
+    }
+    document.getElementById('btn-do-delete').addEventListener('click', () => {
+      if (pendingDeleteAction) pendingDeleteAction();
+      closeDeleteConfirmModal();
+    });
+
     function deletePhoto(photoId, event) {
       if (event) event.stopPropagation();
       if (!isAdmin) return;
-      if (confirm('Bạn có chắc muốn xóa ảnh này khỏi album?')) {
+      openDeleteConfirm('Xóa ảnh kỷ niệm', 'Bạn có chắc chắn muốn xóa ảnh này khỏi album không?', () => {
         photos = photos.filter(p => p.id !== photoId);
         savePhotos();
         updateCounters();
         renderGallery();
-      }
+      });
     }
 
     function deleteWish(wishId) {
       if (!isAdmin) return;
-      if (confirm('Xóa lời chúc này?')) {
+      const wish = wishes.find(w => w.id === wishId);
+      const author = wish ? wish.name : 'này';
+      openDeleteConfirm('Xóa lời chúc', `Bạn có chắc muốn xóa lời chúc của "${author}" khỏi sổ lưu bút?`, () => {
         wishes = wishes.filter(w => w.id !== wishId);
         saveWishes();
         updateCounters();
         renderWishes();
-      }
+      });
     }
 
     // Filter Buttons
