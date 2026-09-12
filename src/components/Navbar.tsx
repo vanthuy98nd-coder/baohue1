@@ -11,7 +11,7 @@ interface NavbarProps {
   isMusicPlaying: boolean;
   onToggleMusic: () => void;
   totalPhotos: number;
-  totalStories: number;
+  totalStories?: number;
   totalWishes: number;
 }
 
@@ -25,7 +25,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   isMusicPlaying,
   onToggleMusic,
   totalPhotos,
-  totalStories,
   totalWishes,
 }) => {
   return (
@@ -57,10 +56,6 @@ export const Navbar: React.FC<NavbarProps> = ({
             <a href="#album-section" className="hover:text-[#006994] transition-colors flex items-center gap-1.5">
               <span>Cuộn phim</span>
               <span className="text-xs px-1.5 py-0.5 rounded-full bg-cyan-100 text-[#006994]">{totalPhotos}</span>
-            </a>
-            <a href="#stories-section" className="hover:text-[#006994] transition-colors flex items-center gap-1.5">
-              <span>Mẩu chuyện</span>
-              <span className="text-xs px-1.5 py-0.5 rounded-full bg-pink-100 text-[#E8B4B8]">{totalStories}</span>
             </a>
             <a href="#guestbook-section" className="hover:text-[#006994] transition-colors flex items-center gap-1.5">
               <span>Sổ lưu bút</span>

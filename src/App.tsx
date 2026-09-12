@@ -6,7 +6,6 @@ import { VinylPlayer } from './components/VinylPlayer';
 import { CategoryFilter } from './components/CategoryFilter';
 import { PolaroidCard } from './components/PolaroidCard';
 import { PhotoLightbox } from './components/PhotoLightbox';
-import { StoriesSection } from './components/StoriesSection';
 import { GuestbookSection } from './components/GuestbookSection';
 import { Footer } from './components/Footer';
 import { AdminLoginModal } from './components/AdminLoginModal';
@@ -15,10 +14,9 @@ import { AdminPlaylistModal } from './components/AdminPlaylistModal';
 import { FirebaseConfigModal } from './components/FirebaseConfigModal';
 import { DeployGuideModal } from './components/DeployGuideModal';
 
-import { INITIAL_PHOTOS, INITIAL_STORIES, INITIAL_GUESTBOOK } from './data/initialData';
+import { INITIAL_PHOTOS, INITIAL_GUESTBOOK } from './data/initialData';
 import {
   subscribeToPhotos,
-  subscribeToStories,
   subscribeToGuestbook,
   subscribeToPlaylist,
   DEFAULT_INITIAL_PLAYLIST,
@@ -27,12 +25,11 @@ import {
   getLocalPhotos,
 } from './services/firebaseService';
 import { musicController } from './services/unifiedMusicController';
-import type { PhotoItem, StoryItem, GuestbookEntry, PhotoCategory, MusicTrack } from './types';
+import type { PhotoItem, GuestbookEntry, PhotoCategory, MusicTrack } from './types';
 
 export const App: React.FC = () => {
-  // State for Photos, Stories, Guestbook, Playlist
+  // State for Photos, Guestbook, Playlist
   const [photos, setPhotos] = useState<PhotoItem[]>(INITIAL_PHOTOS);
-  const [stories, setStories] = useState<StoryItem[]>(INITIAL_STORIES);
   const [guestbook, setGuestbook] = useState<GuestbookEntry[]>(INITIAL_GUESTBOOK);
   const [playlist, setPlaylist] = useState<MusicTrack[]>(DEFAULT_INITIAL_PLAYLIST);
   const [currentTrack, setCurrentTrack] = useState<MusicTrack | null>(DEFAULT_INITIAL_PLAYLIST[0]);
@@ -66,10 +63,6 @@ export const App: React.FC = () => {
       if (list && list.length > 0) setPhotos(list);
     }, INITIAL_PHOTOS);
 
-    const unsubStories = subscribeToStories((list) => {
-      if (list && list.length > 0) setStories(list);
-    }, INITIAL_STORIES);
-
     const unsubGuestbook = subscribeToGuestbook((list) => {
       if (list && list.length > 0) setGuestbook(list);
     }, INITIAL_GUESTBOOK);
@@ -94,7 +87,6 @@ export const App: React.FC = () => {
 
     return () => {
       unsubPhotos();
-      unsubStories();
       unsubGuestbook();
       unsubPlaylist();
       unsubAudio();
@@ -170,11 +162,6 @@ export const App: React.FC = () => {
     setPhotos((prev) => [newPhoto, ...prev]);
   };
 
-  // Story handler
-  const handleStoryAdded = (newStory: StoryItem) => {
-    setStories((prev) => [newStory, ...prev]);
-  };
-
   // Guestbook handler
   const handleEntryAdded = (newEntry: GuestbookEntry) => {
     setGuestbook((prev) => [newEntry, ...prev]);
@@ -241,7 +228,6 @@ export const App: React.FC = () => {
         isMusicPlaying={isMusicPlaying}
         onToggleMusic={handleToggleMusic}
         totalPhotos={photos.length}
-        totalStories={stories.length}
         totalWishes={guestbook.length}
       />
 
@@ -284,13 +270,6 @@ export const App: React.FC = () => {
             ))}
           </div>
         </div>
-
-        {/* Stories Section ("Mẩu chuyện nhỏ") */}
-        <StoriesSection
-          stories={stories}
-          isAdmin={isAdmin}
-          onStoryAdded={handleStoryAdded}
-        />
 
         {/* Guestbook Section ("Sổ lưu bút") */}
         <GuestbookSection

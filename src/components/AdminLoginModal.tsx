@@ -42,7 +42,7 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
         setPassword('');
       }, 700);
     } else {
-      setError('Mật khẩu chưa chính xác. Gợi ý: baohue2026');
+      setError('Mật khẩu chưa chính xác. Vui lòng thử lại!');
     }
   };
 
@@ -79,7 +79,7 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
             Xác thực Quyền Quản Trị
           </h3>
           <p className="text-xs text-slate-500 font-sans mt-1">
-            Dành riêng cho Quốc Bảo &amp; Lại Huệ để tải ảnh mới và viết mẩu chuyện
+            Dành riêng cho Quốc Bảo &amp; Lại Huệ để tải ảnh và quản lý album
           </p>
         </div>
 
@@ -110,7 +110,7 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Nhập mật khẩu (mặc định: baohue2026)"
+                placeholder="Nhập mật khẩu Admin..."
                 className="w-full pl-9 pr-10 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#006994] bg-white font-sans"
               />
               <button
@@ -119,16 +119,6 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
               >
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-              </button>
-            </div>
-            <div className="flex items-center justify-between text-[11px] text-slate-500 mt-2 px-1">
-              <span>Mật khẩu mặc định:</span>
-              <button
-                type="button"
-                onClick={() => setPassword('baohue2026')}
-                className="text-[#006994] font-mono hover:underline"
-              >
-                baohue2026 (Nhấp để điền)
               </button>
             </div>
           </div>

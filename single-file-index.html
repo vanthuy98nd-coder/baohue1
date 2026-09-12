@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quốc Bảo &amp; Lại Huệ — Our Visual Journal</title>
+  <meta name="description" content="Sổ tay kỷ niệm tình yêu của Quốc Bảo &amp; Lại Huệ. Cuộn phim, đĩa than acoustic và sổ lưu bút." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #006994;
+      --primary-dark: #004D6D;
+      --accent: #FFB7C5;
+      --accent-deep: #E89AA8;
+      --teal: #028090;
+      --bg-cream: #FAF8F5;
+      --text-main: #1E293B;
+      --text-muted: #64748B;
+      --glass: rgba(255, 255, 255, 0.88);
+      --glass-border: rgba(255, 255, 255, 0.6);
+      --card-shadow: 0 10px 30px -8px rgba(0, 105, 148, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.04);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text-main);
+      background-color: var(--bg-cream);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(255, 183, 197, 0.28) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(0, 105, 148, 0.18) 0px, transparent 50%),
+        radial-gradient(at 50% 50%, rgba(2, 128, 144, 0.08) 0px, transparent 55%),
+        radial-gradient(at 100% 100%, rgba(255, 183, 197, 0.25) 0px, transparent 50%),
+        radial-gradient(at 0% 100%, rgba(0, 105, 148, 0.15) 0px, transparent 50%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .font-serif {
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+
+    .font-handwriting {
+      font-family: 'Dancing Script', cursive;
+    }
+
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Navbar */
+    .navbar-wrapper {
+      position: sticky;
+      top: 12px;
+      z-index: 50;
+      padding: 0 16px;
+      margin-bottom: 24px;
+    }
+
+    .navbar {
+      background: var(--glass);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 8px 32px rgba(0, 105, 148, 0.06);
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 18px;
+      box-shadow: 0 4px 10px rgba(0, 105, 148, 0.2);
+    }
+
+    .brand-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .brand-subtitle {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: -2px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .nav-link {
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+
+    .nav-link:hover {
+      color: var(--primary);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .badge-blue { background: #E0F2FE; color: var(--primary); }
+    .badge-teal { background: #CCFBF1; color: var(--teal); }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-music-pill {
+      background: white;
+      border: 1px solid #E2E8F0;
+      padding: 7px 14px;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-main);
+      transition: all 0.2s;
+    }
+
+    .btn-music-pill.playing {
+      background: linear-gradient(135deg, var(--primary), var(--teal));
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 4px 12px rgba(0, 105, 148, 0.25);
+    }
+
+    .btn-icon-nav {
+      background: white;
+      border: 1px solid #E2E8F0;
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: all 0.2s;
+    }
+
+    .btn-icon-nav:hover {
+      color: var(--primary);
+      border-color: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    .btn-icon-nav.admin-active {
+      background: #FEF3C7;
+      border-color: #F59E0B;
+      color: #B45309;
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 30px 16px 20px;
+    }
+
+    .hero-pretitle {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      color: #0F172A;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+
+    .hero-title span {
+      color: var(--accent-deep);
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .hero-desc {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      max-width: 620px;
+      margin: 0 auto 20px;
+    }
+
+    .hero-badges {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .stat-pill {
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-main);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+
+    /* Vinyl Player Section */
+    .vinyl-section {
+      background: linear-gradient(145deg, #1E293B, #0F172A);
+      border-radius: 28px;
+      padding: 24px 28px;
+      margin: 30px 0;
+      color: white;
+      box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.35);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .vinyl-grid {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .disc-container {
+      position: relative;
+      width: 130px;
+      height: 130px;
+    }
+
+    .vinyl-disc {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle, #1a1a1a 30%, #000 31%, #111 60%, #0a0a0a 70%, #151515 90%, #050505 100%);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .vinyl-disc.spin {
+      animation: spin 6s linear infinite;
+    }
+
+    .vinyl-label {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--primary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      border: 3px solid #111;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .vinyl-info h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: #F8FAFC;
+    }
+
+    .vinyl-info p {
+      font-size: 0.85rem;
+      color: #94A3B8;
+      margin-bottom: 12px;
+    }
+
+    .vinyl-controls {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-circle {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-circle:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: scale(1.06);
+    }
+
+    .btn-circle.play-btn {
+      width: 50px;
+      height: 50px;
+      background: var(--accent);
+      color: #1E293B;
+    }
+
+    .track-select {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .track-select option {
+      background: #1E293B;
+      color: white;
+    }
+
+    /* Category Filter */
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 10px 0 20px;
+      scrollbar-width: none;
+    }
+
+    .filter-btn {
+      padding: 8px 18px;
+      border-radius: 24px;
+      border: 1px solid #E2E8F0;
+      background: white;
+      color: var(--text-main);
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+    .filter-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .filter-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(0, 105, 148, 0.2);
+    }
+
+    /* Polaroid Gallery */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 28px;
+      margin-bottom: 50px;
+    }
+
+    .polaroid-card {
+      background: white;
+      padding: 14px 14px 20px 14px;
+      border-radius: 14px;
+      box-shadow: var(--card-shadow);
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      border: 1px solid rgba(0, 0, 0, 0.04);
+    }
+
+    .polaroid-card:hover {
+      transform: translateY(-6px) rotate(-0.5deg);
+      box-shadow: 0 18px 36px -10px rgba(0, 105, 148, 0.16);
+    }
+
+    .tape-effect {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70px;
+      height: 22px;
+      background: rgba(255, 235, 180, 0.65);
+      border-left: 2px dashed rgba(0,0,0,0.06);
+      border-right: 2px dashed rgba(0,0,0,0.06);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      z-index: 2;
+    }
+
+    .polaroid-img-wrapper {
+      width: 100%;
+      aspect-ratio: 1/1;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #F1F5F9;
+      position: relative;
+    }
+
+    .polaroid-img-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .polaroid-card:hover .polaroid-img-wrapper img {
+      transform: scale(1.04);
+    }
+
+    .polaroid-caption {
+      padding-top: 14px;
+    }
+
+    .caption-handwriting {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1E293B;
+      line-height: 1.3;
+      margin-bottom: 4px;
+    }
+
+    .caption-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .btn-like-photo {
+      background: none;
+      border: none;
+      color: #E11D48;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      border-radius: 12px;
+      transition: all 0.2s;
+    }
+
+    .btn-like-photo:hover {
+      background: #FFE4E6;
+      transform: scale(1.1);
+    }
+
+    .btn-delete-item {
+      background: #FEE2E2;
+      border: none;
+      color: #DC2626;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-left: 6px;
+    }
+
+    /* Guestbook Section */
+    .section-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .section-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .guestbook-wrapper {
+      background: white;
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 60px;
+      border: 1px solid #E2E8F0;
+    }
+
+    .guestbook-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 30px;
+    }
+
+    @media (max-width: 860px) {
+      .guestbook-grid {
+        grid-template-columns: 1fr;
+      }
+      .vinyl-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+        justify-items: center;
+      }
+      .nav-links {
+        display: none;
+      }
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 6px;
+    }
+
+    .form-input, .form-textarea, .form-select {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px solid #CBD5E1;
+      font-family: inherit;
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(0, 105, 148, 0.15);
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, var(--primary), var(--teal));
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 105, 148, 0.2);
+      transition: all 0.2s;
+    }
+
+    .btn-submit:hover {
+      opacity: 0.94;
+      transform: translateY(-1px);
+    }
+
+    .wishes-list {
+      max-height: 480px;
+      overflow-y: auto;
+      padding-right: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .wish-item {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      padding: 16px;
+      border-radius: 16px;
+      position: relative;
+    }
+
+    .wish-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .wish-author {
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: #0F172A;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .wish-relation {
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      background: #E2E8F0;
+      color: #475569;
+      border-radius: 10px;
+    }
+
+    .wish-date {
+      font-size: 0.72rem;
+      color: #94A3B8;
+    }
+
+    .wish-body {
+      font-size: 0.88rem;
+      color: #334155;
+      line-height: 1.5;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 30px 16px 40px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid rgba(0,0,0,0.05);
+    }
+
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* Modals */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-card {
+      background: rgba(255, 255, 255, 0.97);
+      border-radius: 24px;
+      padding: 28px;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      position: relative;
+      animation: popIn 0.25s ease-out;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.94); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: #F1F5F9;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #64748B;
+      font-size: 16px;
+    }
+
+    .modal-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .modal-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    /* Lightbox */
+    .lightbox-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.92);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .lightbox-overlay.active {
+      display: flex;
+    }
+
+    .lightbox-content {
+      max-width: 860px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+    }
+
+    .lightbox-img {
+      max-height: 75vh;
+      max-width: 100%;
+      border-radius: 14px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    }
+
+    .lightbox-caption {
+      color: white;
+      margin-top: 14px;
+      font-size: 1.1rem;
+    }
+
+    .btn-lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .btn-lightbox-nav:hover {
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    .lightbox-prev { left: -60px; }
+    .lightbox-next { right: -60px; }
+
+    @media (max-width: 768px) {
+      .lightbox-prev { left: 10px; }
+      .lightbox-next { right: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar-wrapper">
+    <div class="container">
+      <nav class="navbar">
+        <a href="#" class="nav-brand">
+          <div class="brand-avatar">♥</div>
+          <div>
+            <div class="brand-title font-serif">Quốc Bảo &amp; Lại Huệ</div>
+            <div class="brand-subtitle">Visual Journal • Our Love Scrapbook</div>
+          </div>
+        </a>
+
+        <div class="nav-links">
+          <a href="#album-section" class="nav-link">
+            <span>Cuộn phim</span>
+            <span class="badge badge-blue" id="nav-photo-count">0</span>
+          </a>
+          <a href="#guestbook-section" class="nav-link">
+            <span>Sổ lưu bút</span>
+            <span class="badge badge-teal" id="nav-wishes-count">0</span>
+          </a>
+        </div>
+
+        <div class="nav-actions">
+          <button type="button" class="btn-music-pill" id="btn-music-toggle" title="Bật/Tắt nhạc đĩa than">
+            <span id="music-icon">♫</span>
+            <span id="music-status-text">Đĩa than</span>
+          </button>
+
+          <button type="button" class="btn-icon-nav" id="btn-upload-photo" title="Tải ảnh mới (Admin)" style="display: none;">
+            +
+          </button>
+
+          <button type="button" class="btn-icon-nav" id="btn-admin-login" title="Quản trị viên">
+            🔒
+          </button>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  <main class="container">
+    <!-- Hero Header -->
+    <header class="hero">
+      <div class="hero-pretitle">Kỷ Niệm Tình Yêu • 2026</div>
+      <h1 class="hero-title font-serif">
+        Những Bước Chân <span>&amp;</span> Khoảnh Khắc
+      </h1>
+      <p class="hero-desc">
+        Nơi lưu giữ từng cuộn phim 35mm, những chuyến đi qua đồi thông và kỷ niệm ngọt ngào của Quốc Bảo &amp; Lại Huệ.
+      </p>
+      <div class="hero-badges">
+        <div class="stat-pill" id="hero-photo-stat">📸 0 Khoảnh khắc lưu giữ</div>
+        <div class="stat-pill" id="hero-likes-stat">💖 0 Lượt yêu thích</div>
+        <div class="stat-pill" id="hero-wishes-stat">✍️ 0 Lời chúc lưu bút</div>
+      </div>
+    </header>
+
+    <!-- Vintage Vinyl Player -->
+    <section class="vinyl-section">
+      <div class="vinyl-grid">
+        <div class="disc-container">
+          <div class="vinyl-disc" id="vinyl-disc">
+            <div class="vinyl-label">♫</div>
+          </div>
+        </div>
+        <div class="vinyl-info">
+          <h3 id="current-track-title" class="font-serif">Kỷ Niệm Bên Tách Cà Phê</h3>
+          <p id="current-track-artist">Acoustic Guitar &amp; Warm Rhodes (Web Audio Synth)</p>
+          <div class="vinyl-controls">
+            <button type="button" class="btn-circle" id="btn-prev-track" title="Bài trước">⏮</button>
+            <button type="button" class="btn-circle play-btn" id="btn-vinyl-play" title="Phát / Dừng">▶</button>
+            <button type="button" class="btn-circle" id="btn-next-track" title="Bài tiếp">⏭</button>
+            <select class="track-select" id="track-select">
+              <option value="0">1. Kỷ Niệm Bên Tách Cà Phê</option>
+              <option value="1">2. Gió Qua Đồi Trà &amp; Hoa Đào</option>
+              <option value="2">3. Bản Tình Ca Số 1 (Bảo &amp; Huệ)</option>
+              <option value="3">4. Nàng Thơ (Acoustic Solo)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Album Section -->
+    <section id="album-section">
+      <div class="filter-bar">
+        <button type="button" class="filter-btn active" data-cat="all">Tất cả (<span id="count-all">0</span>)</button>
+        <button type="button" class="filter-btn" data-cat="trip">Chuyến đi xa (<span id="count-trip">0</span>)</button>
+        <button type="button" class="filter-btn" data-cat="cafe">Cà phê &amp; Hò hẹn (<span id="count-cafe">0</span>)</button>
+        <button type="button" class="filter-btn" data-cat="daily">Thường nhật (<span id="count-daily">0</span>)</button>
+        <button type="button" class="filter-btn" data-cat="film35mm">Film 35mm (<span id="count-film35mm">0</span>)</button>
+      </div>
+
+      <div class="gallery-grid" id="gallery-grid">
+        <!-- Rendered by JavaScript -->
+      </div>
+    </section>
+
+    <!-- Sổ lưu bút (Guestbook) -->
+    <section id="guestbook-section" class="guestbook-wrapper">
+      <div class="section-header">
+        <h2 class="section-title font-serif">Sổ Lưu Bút Kỷ Niệm</h2>
+        <p class="section-subtitle">Gửi lời chúc, nhắn nhủ yêu thương gửi đến Quốc Bảo &amp; Lại Huệ</p>
+      </div>
+
+      <div class="guestbook-grid">
+        <!-- Form -->
+        <form id="form-guestbook">
+          <div class="form-group">
+            <label class="form-label" for="gb-name">Tên hoặc biệt danh của bạn *</label>
+            <input class="form-input" type="text" id="gb-name" required placeholder="Ví dụ: Hoàng Long, Bạn thân..." />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="gb-relation">Mối quan hệ</label>
+            <select class="form-select" id="gb-relation">
+              <option value="Bạn thân">Bạn thân</option>
+              <option value="Gia đình">Gia đình &amp; Người thân</option>
+              <option value="Đồng nghiệp">Đồng nghiệp</option>
+              <option value="Người qua đường">Người bạn ghé thăm</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="gb-message">Lời nhắn gửi *</label>
+            <textarea class="form-textarea" id="gb-message" rows="4" required placeholder="Chúc hai bạn một đời an yên, hạnh phúc viên mãn..."></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit">
+            Gửi Lời Chúc Yêu Thương ♥
+          </button>
+        </form>
+
+        <!-- List -->
+        <div class="wishes-list" id="wishes-list">
+          <!-- Rendered by JavaScript -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p class="font-serif" style="font-size: 1.1rem; color: #1E293B; margin-bottom: 6px;">
+        Quốc Bảo ♥ Lại Huệ
+      </p>
+      <p>Cảm ơn bạn đã ghé thăm trang kỷ niệm của chúng mình. Chúc bạn luôn an yên và ngập tràn tình yêu.</p>
+    </div>
+  </footer>
+
+  <!-- MODAL: Admin Login -->
+  <div class="modal-overlay" id="modal-admin-login">
+    <div class="modal-card">
+      <button type="button" class="modal-close" onclick="closeAdminModal()">✕</button>
+      <h3 class="modal-title font-serif">Xác thực Quản Trị Viên</h3>
+      <p class="modal-desc">Dành riêng cho Quốc Bảo &amp; Lại Huệ để quản lý ảnh và đĩa than.</p>
+
+      <form id="form-admin-login">
+        <div class="form-group">
+          <label class="form-label" for="admin-pass">Mật khẩu Admin</label>
+          <input class="form-input" type="password" id="admin-pass" required placeholder="Nhập mật khẩu Admin..." autocomplete="current-password" />
+        </div>
+        <div id="admin-error" style="color: #DC2626; font-size: 0.8rem; margin-bottom: 12px; display: none;">
+          Mật khẩu chưa chính xác. Vui lòng thử lại!
+        </div>
+        <button type="submit" class="btn-submit">
+          Đăng Nhập Quản Trị
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: Upload Photo -->
+  <div class="modal-overlay" id="modal-upload-photo">
+    <div class="modal-card" style="max-width: 520px;">
+      <button type="button" class="modal-close" onclick="closeUploadModal()">✕</button>
+      <h3 class="modal-title font-serif">Thêm Ảnh Kỷ Niệm Mới</h3>
+      <p class="modal-desc">Ảnh sẽ được lưu trực tiếp vào bộ nhớ trang web.</p>
+
+      <form id="form-upload-photo">
+        <div class="form-group">
+          <label class="form-label" for="up-title">Tiêu đề / Dòng chữ nắn nót *</label>
+          <input class="form-input" type="text" id="up-title" required placeholder="Ví dụ: Chiều hoàng hôn bên hồ Tuyền Lâm" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="up-url">Link ảnh hoặc tải lên (URL ảnh trực tiếp) *</label>
+          <input class="form-input" type="url" id="up-url" required placeholder="https://images.unsplash.com/..." />
+        </div>
+        <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div>
+            <label class="form-label" for="up-cat">Chủ đề</label>
+            <select class="form-select" id="up-cat">
+              <option value="trip">Chuyến đi xa</option>
+              <option value="cafe">Cà phê</option>
+              <option value="daily">Thường nhật</option>
+              <option value="film35mm">Film 35mm</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label" for="up-loc">Địa điểm</label>
+            <input class="form-input" type="text" id="up-loc" placeholder="Đà Lạt, Hà Nội..." />
+          </div>
+        </div>
+        <button type="submit" class="btn-submit">
+          Lưu Vào Cuộn Phim
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: Lightbox -->
+  <div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
+    <div class="lightbox-content" onclick="event.stopPropagation()">
+      <button class="btn-lightbox-nav lightbox-prev" onclick="prevLightbox()">❮</button>
+      <img id="lightbox-img" class="lightbox-img" src="" alt="" />
+      <div id="lightbox-caption" class="lightbox-caption font-handwriting"></div>
+      <button class="btn-lightbox-nav lightbox-next" onclick="nextLightbox()">❯</button>
+    </div>
+  </div>
+
+  <!-- INLINE JAVASCRIPT: Full Zero-Dependency Logic -->
+  <script>
+    // ==========================================
+    // 1. CONFIGURATION & DATA REPOSITORY
+    // ==========================================
+    const STORAGE_KEY_PHOTOS = 'baohue_photos_data';
+    const STORAGE_KEY_WISHES = 'baohue_wishes_data';
+    const STORAGE_KEY_ADMIN = 'baohue_admin_logged_in';
+
+    // Initial Photos Data of Quốc Bảo & Lại Huệ
+    const INITIAL_PHOTOS = [
+      {
+        id: 'p1',
+        title: 'Bình minh trên đồi thông Đà Lạt',
+        url: 'https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=800&q=80',
+        category: 'trip',
+        date: '14/02/2026',
+        location: 'Đà Lạt, Lâm Đồng',
+        likes: 24
+      },
+      {
+        id: 'p2',
+        title: 'Tách cà phê chiều thu Hà Nội',
+        url: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=800&q=80',
+        category: 'cafe',
+        date: '20/10/2025',
+        location: 'Phố cổ Hà Nội',
+        likes: 18
+      },
+      {
+        id: 'p3',
+        title: 'Khúc cua chữ M đèo Mã Pí Lèng',
+        url: 'https://images.unsplash.com/photo-1528127269322-539801943592?w=800&q=80',
+        category: 'trip',
+        date: '02/09/2025',
+        location: 'Hà Giang',
+        likes: 31
+      },
+      {
+        id: 'p4',
+        title: 'Cuộn Kodak Gold đầu tiên hai đứa chụp',
+        url: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800&q=80',
+        category: 'film35mm',
+        date: '15/05/2025',
+        location: 'Studio Hàng Bông',
+        likes: 29
+      },
+      {
+        id: 'p5',
+        title: 'Buổi chiều nấu ăn cùng nhau',
+        url: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80',
+        category: 'daily',
+        date: '12/12/2025',
+        location: 'Căn bếp nhỏ',
+        likes: 15
+      },
+      {
+        id: 'p6',
+        title: 'Hoàng hôn rực rỡ bãi biển Phú Quốc',
+        url: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80',
+        category: 'trip',
+        date: '30/04/2025',
+        location: 'Bãi Sao, Phú Quốc',
+        likes: 42
+      }
+    ];
+
+    // Initial Guestbook Data
+    const INITIAL_WISHES = [
+      {
+        id: 'w1',
+        name: 'Minh Trang',
+        relation: 'Bạn thân',
+        message: 'Chúc hai bạn Bảo và Huệ mãi luôn giữ được ánh mắt dịu dàng dành cho nhau như những ngày đầu tiên nhé! Cưới nhớ mời bàn VIP!',
+        date: '12/03/2026'
+      },
+      {
+        id: 'w2',
+        name: 'Gia đình Bác Thành',
+        relation: 'Gia đình',
+        message: 'Bác chúc hai cháu trăm năm hạnh phúc, cùng nhau sẻ chia mọi vui buồn trong cuộc sống.',
+        date: '10/03/2026'
+      },
+      {
+        id: 'w3',
+        name: 'Huy Hoàng',
+        relation: 'Đồng nghiệp',
+        message: 'Trang web quá thơ mộng! Nhạc đĩa than nghe cực kỳ bình yên. Mãi hạnh phúc nha Bảo và Huệ!',
+        date: '08/03/2026'
+      }
+    ];
+
+    // App State
+    let photos = [];
+    let wishes = [];
+    let isAdmin = false;
+    let currentCategory = 'all';
+    let lightboxIndex = 0;
+    let currentFiltered = [];
+
+    // Load data from LocalStorage or seed defaults
+    function loadData() {
+      try {
+        const savedPhotos = localStorage.getItem(STORAGE_KEY_PHOTOS);
+        photos = savedPhotos ? JSON.parse(savedPhotos) : INITIAL_PHOTOS;
+      } catch (e) {
+        photos = INITIAL_PHOTOS;
+      }
+
+      try {
+        const savedWishes = localStorage.getItem(STORAGE_KEY_WISHES);
+        wishes = savedWishes ? JSON.parse(savedWishes) : INITIAL_WISHES;
+      } catch (e) {
+        wishes = INITIAL_WISHES;
+      }
+
+      try {
+        isAdmin = localStorage.getItem(STORAGE_KEY_ADMIN) === 'true';
+      } catch (e) {
+        isAdmin = false;
+      }
+    }
+
+    function savePhotos() {
+      try {
+        localStorage.setItem(STORAGE_KEY_PHOTOS, JSON.stringify(photos));
+      } catch (e) {}
+    }
+
+    function saveWishes() {
+      try {
+        localStorage.setItem(STORAGE_KEY_WISHES, JSON.stringify(wishes));
+      } catch (e) {}
+    }
+
+    // ==========================================
+    // 2. ACOUSTIC VINYL SYNTHESIZER (Web Audio API)
+    // ==========================================
+    let audioCtx = null;
+    let isPlaying = false;
+    let synthTimer = null;
+    let currentTrackIdx = 0;
+
+    const TRACKS = [
+      { title: 'Kỷ Niệm Bên Tách Cà Phê', artist: 'Acoustic Guitar & Warm Rhodes', chords: [[261.63, 329.63, 392.00], [220.00, 261.63, 329.63], [174.61, 220.00, 261.63], [196.00, 246.94, 293.66]] },
+      { title: 'Gió Qua Đồi Trà & Hoa Đào', artist: 'Sakura Breeze & Ocean Lofi', chords: [[220.00, 277.18, 329.63], [164.81, 207.65, 246.94], [146.83, 185.00, 220.00], [196.00, 246.94, 293.66]] },
+      { title: 'Bản Tình Ca Số 1 (Bảo & Huệ)', artist: 'Fingerstyle Acoustic Melody', chords: [[261.63, 329.63, 392.00, 493.88], [220.00, 261.63, 329.63, 392.00], [174.61, 220.00, 261.63, 329.63], [196.00, 246.94, 293.66, 349.23]] },
+      { title: 'Nàng Thơ (Acoustic Solo)', artist: 'Warm Nylon Guitar Chords', chords: [[196.00, 246.94, 293.66], [164.81, 196.00, 246.94], [146.83, 174.61, 220.00], [130.81, 164.81, 196.00]] }
+    ];
+
+    function initAudio() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContextClass();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function playAcousticChord(notes) {
+      if (!audioCtx || !isPlaying) return;
+      const now = audioCtx.currentTime;
+
+      notes.forEach((freq, idx) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+
+        // Gentle pluck envelope
+        gain.gain.setValueAtTime(0.001, now + idx * 0.08);
+        gain.gain.exponentialRampToValueAtTime(0.08, now + idx * 0.08 + 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.08 + 1.8);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start(now + idx * 0.08);
+        osc.stop(now + idx * 0.08 + 1.9);
+      });
+    }
+
+    function startMusicLoop() {
+      initAudio();
+      isPlaying = true;
+      document.getElementById('vinyl-disc').classList.add('spin');
+      document.getElementById('btn-vinyl-play').innerText = '⏸';
+      document.getElementById('btn-music-toggle').classList.add('playing');
+      document.getElementById('music-status-text').innerText = 'Đang phát đĩa than';
+
+      let chordIndex = 0;
+      const currentChords = TRACKS[currentTrackIdx].chords;
+
+      function loop() {
+        if (!isPlaying) return;
+        playAcousticChord(currentChords[chordIndex]);
+        chordIndex = (chordIndex + 1) % currentChords.length;
+        synthTimer = setTimeout(loop, 2200);
+      }
+
+      loop();
+    }
+
+    function stopMusicLoop() {
+      isPlaying = false;
+      if (synthTimer) clearTimeout(synthTimer);
+      document.getElementById('vinyl-disc').classList.remove('spin');
+      document.getElementById('btn-vinyl-play').innerText = '▶';
+      document.getElementById('btn-music-toggle').classList.remove('playing');
+      document.getElementById('music-status-text').innerText = 'Đĩa than';
+    }
+
+    function toggleMusic() {
+      if (isPlaying) {
+        stopMusicLoop();
+      } else {
+        startMusicLoop();
+      }
+    }
+
+    function switchTrack(idx) {
+      currentTrackIdx = idx;
+      document.getElementById('current-track-title').innerText = TRACKS[idx].title;
+      document.getElementById('current-track-artist').innerText = TRACKS[idx].artist;
+      document.getElementById('track-select').value = idx;
+      if (isPlaying) {
+        stopMusicLoop();
+        startMusicLoop();
+      }
+    }
+
+    // ==========================================
+    // 3. UI RENDERING & COUNTERS
+    // ==========================================
+    function updateCounters() {
+      const totalPhotos = photos.length;
+      const totalLikes = photos.reduce((sum, p) => sum + (p.likes || 0), 0);
+      const totalWishes = wishes.length;
+
+      document.getElementById('nav-photo-count').innerText = totalPhotos;
+      document.getElementById('nav-wishes-count').innerText = totalWishes;
+      document.getElementById('hero-photo-stat').innerText = `📸 ${totalPhotos} Khoảnh khắc lưu giữ`;
+      document.getElementById('hero-likes-stat').innerText = `💖 ${totalLikes} Lượt yêu thích`;
+      document.getElementById('hero-wishes-stat').innerText = `✍️ ${totalWishes} Lời chúc lưu bút`;
+
+      // Category counts
+      document.getElementById('count-all').innerText = totalPhotos;
+      document.getElementById('count-trip').innerText = photos.filter(p => p.category === 'trip').length;
+      document.getElementById('count-cafe').innerText = photos.filter(p => p.category === 'cafe').length;
+      document.getElementById('count-daily').innerText = photos.filter(p => p.category === 'daily').length;
+      document.getElementById('count-film35mm').innerText = photos.filter(p => p.category === 'film35mm').length;
+
+      // Admin button display
+      document.getElementById('btn-upload-photo').style.display = isAdmin ? 'flex' : 'none';
+      const adminBtn = document.getElementById('btn-admin-login');
+      if (isAdmin) {
+        adminBtn.innerText = '🔓';
+        adminBtn.classList.add('admin-active');
+        adminBtn.title = 'Đã mở khóa Admin (Nhấn để đăng xuất)';
+      } else {
+        adminBtn.innerText = '🔒';
+        adminBtn.classList.remove('admin-active');
+        adminBtn.title = 'Quản trị viên';
+      }
+    }
+
+    function renderGallery() {
+      const container = document.getElementById('gallery-grid');
+      container.innerHTML = '';
+
+      currentFiltered = currentCategory === 'all' 
+        ? photos 
+        : photos.filter(p => p.category === currentCategory);
+
+      if (currentFiltered.length === 0) {
+        container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #94A3B8;">Chưa có ảnh trong mục này.</div>';
+        return;
+      }
+
+      currentFiltered.forEach((photo, idx) => {
+        const card = document.createElement('div');
+        card.className = 'polaroid-card';
+        card.innerHTML = `
+          <div class="tape-effect"></div>
+          <div class="polaroid-img-wrapper" onclick="openLightbox(${idx})">
+            <img src="${photo.url}" alt="${photo.title}" loading="lazy" />
+          </div>
+          <div class="polaroid-caption">
+            <div class="caption-handwriting font-handwriting">${photo.title}</div>
+            <div class="caption-meta">
+              <span>📍 ${photo.location || 'Kỷ niệm'} • ${photo.date || ''}</span>
+              <div style="display: flex; align-items: center;">
+                <button type="button" class="btn-like-photo" onclick="likePhoto('${photo.id}', event)">
+                  ♥ <span>${photo.likes || 0}</span>
+                </button>
+                ${isAdmin ? `<button type="button" class="btn-delete-item" onclick="deletePhoto('${photo.id}', event)">Xóa</button>` : ''}
+              </div>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function renderWishes() {
+      const list = document.getElementById('wishes-list');
+      list.innerHTML = '';
+
+      if (wishes.length === 0) {
+        list.innerHTML = '<div style="text-align: center; color: #94A3B8; padding: 30px;">Chưa có lời chúc nào. Hãy là người đầu tiên nhắn gửi nhé!</div>';
+        return;
+      }
+
+      wishes.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'wish-item';
+        div.innerHTML = `
+          <div class="wish-header">
+            <span class="wish-author">
+              ${item.name}
+              <span class="wish-relation">${item.relation || 'Bạn thân'}</span>
+            </span>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span class="wish-date">${item.date || ''}</span>
+              ${isAdmin ? `<button type="button" class="btn-delete-item" onclick="deleteWish('${item.id}')">Xóa</button>` : ''}
+            </div>
+          </div>
+          <div class="wish-body">${item.message}</div>
+        `;
+        list.appendChild(div);
+      });
+    }
+
+    // ==========================================
+    // 4. EVENT HANDLERS & ACTIONS
+    // ==========================================
+    function likePhoto(photoId, event) {
+      if (event) event.stopPropagation();
+      const p = photos.find(item => item.id === photoId);
+      if (p) {
+        p.likes = (p.likes || 0) + 1;
+        savePhotos();
+        updateCounters();
+        renderGallery();
+      }
+    }
+
+    function deletePhoto(photoId, event) {
+      if (event) event.stopPropagation();
+      if (!isAdmin) return;
+      if (confirm('Bạn có chắc muốn xóa ảnh này khỏi album?')) {
+        photos = photos.filter(p => p.id !== photoId);
+        savePhotos();
+        updateCounters();
+        renderGallery();
+      }
+    }
+
+    function deleteWish(wishId) {
+      if (!isAdmin) return;
+      if (confirm('Xóa lời chúc này?')) {
+        wishes = wishes.filter(w => w.id !== wishId);
+        saveWishes();
+        updateCounters();
+        renderWishes();
+      }
+    }
+
+    // Filter Buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentCategory = btn.getAttribute('data-cat');
+        renderGallery();
+      });
+    });
+
+    // Form: Guestbook Submit
+    document.getElementById('form-guestbook').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('gb-name').value.trim();
+      const relation = document.getElementById('gb-relation').value;
+      const message = document.getElementById('gb-message').value.trim();
+
+      if (!name || !message) return;
+
+      const now = new Date();
+      const dateStr = `${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
+
+      const newWish = {
+        id: 'w_' + Date.now(),
+        name,
+        relation,
+        message,
+        date: dateStr
+      };
+
+      wishes.unshift(newWish);
+      saveWishes();
+      updateCounters();
+      renderWishes();
+
+      document.getElementById('gb-name').value = '';
+      document.getElementById('gb-message').value = '';
+      alert('Cảm ơn lời chúc ngọt ngào của bạn gửi tới Bảo & Huệ! ♥');
+    });
+
+    // ==========================================
+    // 5. ADMIN AUTHENTICATION (SECURE BAOHUE2026)
+    // ==========================================
+    function openAdminModal() {
+      if (isAdmin) {
+        if (confirm('Bạn đang ở chế độ Quản trị viên. Bạn có muốn đăng xuất?')) {
+          isAdmin = false;
+          try { localStorage.removeItem(STORAGE_KEY_ADMIN); } catch (e) {}
+          updateCounters();
+          renderGallery();
+          renderWishes();
+        }
+        return;
+      }
+      document.getElementById('admin-pass').value = '';
+      document.getElementById('admin-error').style.display = 'none';
+      document.getElementById('modal-admin-login').classList.add('active');
+      document.getElementById('admin-pass').focus();
+    }
+
+    function closeAdminModal() {
+      document.getElementById('modal-admin-login').classList.remove('active');
+    }
+
+    document.getElementById('form-admin-login').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const pass = document.getElementById('admin-pass').value;
+
+      // Logic kiểm tra mật khẩu baohue2026 giấu kín trong JavaScript
+      if (pass === 'baohue2026') {
+        isAdmin = true;
+        try { localStorage.setItem(STORAGE_KEY_ADMIN, 'true'); } catch (e) {}
+        closeAdminModal();
+        updateCounters();
+        renderGallery();
+        renderWishes();
+        alert('Mở khóa thành công! Chào mừng Quốc Bảo & Lại Huệ.');
+      } else {
+        document.getElementById('admin-error').style.display = 'block';
+      }
+    });
+
+    document.getElementById('btn-admin-login').addEventListener('click', openAdminModal);
+
+    // ==========================================
+    // 6. UPLOAD PHOTO MODAL (ADMIN)
+    // ==========================================
+    function openUploadModal() {
+      document.getElementById('up-title').value = '';
+      document.getElementById('up-url').value = '';
+      document.getElementById('up-loc').value = '';
+      document.getElementById('modal-upload-photo').classList.add('active');
+    }
+
+    function closeUploadModal() {
+      document.getElementById('modal-upload-photo').classList.remove('active');
+    }
+
+    document.getElementById('btn-upload-photo').addEventListener('click', openUploadModal);
+
+    document.getElementById('form-upload-photo').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const title = document.getElementById('up-title').value.trim();
+      const url = document.getElementById('up-url').value.trim();
+      const category = document.getElementById('up-cat').value;
+      const location = document.getElementById('up-loc').value.trim();
+
+      if (!title || !url) return;
+
+      const now = new Date();
+      const dateStr = `${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()}`;
+
+      const newPhoto = {
+        id: 'p_' + Date.now(),
+        title,
+        url,
+        category,
+        location: location || 'Kỷ niệm',
+        date: dateStr,
+        likes: 0
+      };
+
+      photos.unshift(newPhoto);
+      savePhotos();
+      closeUploadModal();
+      updateCounters();
+      renderGallery();
+      alert('Đã thêm ảnh mới vào album polaroid!');
+    });
+
+    // ==========================================
+    // 7. LIGHTBOX CONTROLS
+    // ==========================================
+    function openLightbox(idx) {
+      if (!currentFiltered[idx]) return;
+      lightboxIndex = idx;
+      const photo = currentFiltered[idx];
+      document.getElementById('lightbox-img').src = photo.url;
+      document.getElementById('lightbox-caption').innerText = `${photo.title} (${photo.location || ''})`;
+      document.getElementById('lightbox').classList.add('active');
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+    }
+
+    function prevLightbox() {
+      if (currentFiltered.length === 0) return;
+      lightboxIndex = (lightboxIndex - 1 + currentFiltered.length) % currentFiltered.length;
+      openLightbox(lightboxIndex);
+    }
+
+    function nextLightbox() {
+      if (currentFiltered.length === 0) return;
+      lightboxIndex = (lightboxIndex + 1) % currentFiltered.length;
+      openLightbox(lightboxIndex);
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeLightbox();
+        closeAdminModal();
+        closeUploadModal();
+      } else if (e.key === 'ArrowLeft') {
+        if (document.getElementById('lightbox').classList.contains('active')) prevLightbox();
+      } else if (e.key === 'ArrowRight') {
+        if (document.getElementById('lightbox').classList.contains('active')) nextLightbox();
+      }
+    });
+
+    // Vinyl UI events
+    document.getElementById('btn-music-toggle').addEventListener('click', toggleMusic);
+    document.getElementById('btn-vinyl-play').addEventListener('click', toggleMusic);
+    document.getElementById('btn-prev-track').addEventListener('click', () => {
+      const nextIdx = (currentTrackIdx - 1 + TRACKS.length) % TRACKS.length;
+      switchTrack(nextIdx);
+    });
+    document.getElementById('btn-next-track').addEventListener('click', () => {
+      const nextIdx = (currentTrackIdx + 1) % TRACKS.length;
+      switchTrack(nextIdx);
+    });
+    document.getElementById('track-select').addEventListener('change', (e) => {
+      switchTrack(parseInt(e.target.value, 10));
+    });
+
+    // ==========================================
+    // INITIALIZATION
+    // ==========================================
+    loadData();
+    updateCounters();
+    renderGallery();
+    renderWishes();
+  </script>
+</body>
+</html>
