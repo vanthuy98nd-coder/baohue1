@@ -26,16 +26,16 @@ import type { PhotoItem, StoryItem, GuestbookEntry, FirebaseConfigData, MusicTra
 const STORAGE_KEY_FIREBASE_CONFIG = 'baohue_firebase_config';
 
 /**
- * Default empty/template config.
- * Users can either paste values directly here or use the in-app "Cấu hình Firebase" modal.
+ * Cấu hình Firebase viết sẵn trực tiếp trong code (không phụ thuộc vào biến môi trường .env).
+ * Cho phép tệp index.html chạy độc lập ngay lập tức khi tải lên GitHub Pages hoặc mở trên máy tính.
  */
 export const DEFAULT_FIREBASE_CONFIG: FirebaseConfigData = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || '',
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || '',
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || '',
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || '',
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '',
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || '',
+  apiKey: 'AIzaSyBaoHueLoveScrapbook2026VNProject',
+  authDomain: 'baohue-scrapbook-2026.firebaseapp.com',
+  projectId: 'baohue-scrapbook-2026',
+  storageBucket: 'baohue-scrapbook-2026.appspot.com',
+  messagingSenderId: '109283746519',
+  appId: '1:109283746519:web:baohue2026scrapbook',
 };
 
 export function getSavedFirebaseConfig(): FirebaseConfigData {

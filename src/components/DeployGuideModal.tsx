@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { HelpCircle, X, ExternalLink, Copy, Check, Rocket, Database, Globe, ArrowRight } from 'lucide-react';
+import { HelpCircle, X, ExternalLink, Copy, Check, Rocket, Database, Globe, ArrowRight, Download, FileCode, CheckCircle2 } from 'lucide-react';
 
 interface DeployGuideModalProps {
   isOpen: boolean;
@@ -7,8 +7,9 @@ interface DeployGuideModalProps {
 }
 
 export const DeployGuideModal: React.FC<DeployGuideModalProps> = ({ isOpen, onClose }) => {
-  const [activeTab, setActiveTab] = useState<'firebase' | 'deploy'>('deploy');
+  const [activeTab, setActiveTab] = useState<'singlefile' | 'deploy' | 'firebase'>('singlefile');
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   if (!isOpen) return null;
 
@@ -16,6 +17,47 @@ export const DeployGuideModal: React.FC<DeployGuideModalProps> = ({ isOpen, onCl
     navigator.clipboard.writeText(text);
     setCopiedCode(key);
     setTimeout(() => setCopiedCode(null), 2000);
+  };
+
+  const handleDownloadIndexHtml = async () => {
+    setIsDownloading(true);
+    try {
+      // Try fetching docs/index.html first
+      const res = await fetch('docs/index.html');
+      if (res.ok) {
+        const text = await res.text();
+        const blob = new Blob([text], { type: 'text/html;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'index.html';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        setIsDownloading(false);
+        return;
+      }
+    } catch (e) {
+      console.warn('Could not fetch docs/index.html, falling back to document source', e);
+    }
+
+    try {
+      const fullHtml = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+      const blob = new Blob([fullHtml], { type: 'text/html;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'index.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   return (
@@ -48,43 +90,124 @@ export const DeployGuideModal: React.FC<DeployGuideModalProps> = ({ isOpen, onCl
           </div>
           <div>
             <h3 className="font-serif-display text-xl sm:text-2xl font-bold text-[#1E293B]">
-              Hướng Dẫn Đưa Web Lên Mạng &amp; Firebase 0 Đồng
+              Đóng Gói 1 Tệp index.html &amp; Đưa Web Lên Mạng
             </h3>
             <p className="text-xs text-slate-500 font-sans mt-0.5">
-              Các bước đơn giản nhất dành cho Quốc Bảo &amp; Lại Huệ để chia sẻ cho bạn bè
+              Dành cho Quốc Bảo &amp; Lại Huệ — Chạy offline trên máy tính hoặc xuất bản GitHub Pages miễn phí
             </p>
           </div>
         </div>
 
         {/* Tab switcher */}
-        <div className="flex gap-2 p-1.5 rounded-2xl bg-slate-100 mb-6 max-w-md">
+        <div className="flex gap-2 p-1.5 rounded-2xl bg-slate-100 mb-6 max-w-xl">
+          <button
+            type="button"
+            onClick={() => setActiveTab('singlefile')}
+            className={`flex-1 py-2 px-3 rounded-xl text-xs font-semibold transition-all flex items-center justify-center gap-1.5 ${
+              activeTab === 'singlefile'
+                ? 'bg-white text-[#006994] shadow-xs'
+                : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            <FileCode className="w-3.5 h-3.5" />
+            <span>1. Tệp index.html Duy Nhất</span>
+          </button>
           <button
             type="button"
             onClick={() => setActiveTab('deploy')}
-            className={`flex-1 py-2 px-4 rounded-xl text-xs font-semibold transition-all flex items-center justify-center gap-1.5 ${
+            className={`flex-1 py-2 px-3 rounded-xl text-xs font-semibold transition-all flex items-center justify-center gap-1.5 ${
               activeTab === 'deploy'
                 ? 'bg-white text-[#006994] shadow-xs'
                 : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <Globe className="w-3.5 h-3.5" />
-            <span>1. Deploy Vercel / Netlify (0đ)</span>
+            <span>2. Vercel / Netlify</span>
           </button>
           <button
             type="button"
             onClick={() => setActiveTab('firebase')}
-            className={`flex-1 py-2 px-4 rounded-xl text-xs font-semibold transition-all flex items-center justify-center gap-1.5 ${
+            className={`flex-1 py-2 px-3 rounded-xl text-xs font-semibold transition-all flex items-center justify-center gap-1.5 ${
               activeTab === 'firebase'
                 ? 'bg-white text-[#006994] shadow-xs'
                 : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <Database className="w-3.5 h-3.5" />
-            <span>2. Tạo Firebase Free (Realtime)</span>
+            <span>3. Firebase Realtime</span>
           </button>
         </div>
 
-        {/* TAB 1: Deploy Netlify / Vercel */}
+        {/* TAB 1: Single File index.html */}
+        {activeTab === 'singlefile' && (
+          <div className="space-y-4 text-xs text-slate-700 font-sans">
+            <div className="p-4 rounded-2xl bg-sky-50 border border-sky-200 text-sky-900 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div>
+                <p className="font-bold text-sm text-[#006994] flex items-center gap-1.5 mb-1">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                  <span>Toàn bộ website đã được gộp vào duy nhất 1 tệp index.html!</span>
+                </p>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Tất cả mã HTML, Tailwind CSS, JavaScript, icon Lucide, nhạc đĩa than Acoustic và cấu hình Firebase đã được đóng gói liền mạch không cần bất kỳ file ngoài nào.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={handleDownloadIndexHtml}
+                disabled={isDownloading}
+                className="flex-shrink-0 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#006994] to-[#00A896] hover:opacity-95 text-white font-semibold text-xs shadow-sm flex items-center gap-2 transition-all cursor-pointer"
+              >
+                <Download className="w-4 h-4" />
+                <span>{isDownloading ? 'Đang chuẩn bị...' : 'Tải về index.html'}</span>
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              {/* Option 1: Double click on computer */}
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-full bg-[#006994] text-white text-xs flex items-center justify-center font-bold">1</span>
+                  <h4 className="font-bold text-sm text-[#1E293B]">Mở ngay trên máy tính (Offline / Zero-Config)</h4>
+                </div>
+                <p className="text-slate-600 leading-relaxed">
+                  Sau khi tải file <code className="bg-slate-200 px-1.5 py-0.5 rounded font-mono text-[#006994]">index.html</code> về máy, bạn chỉ cần <strong>nhấp đúp chuột để mở trực tiếp trong trình duyệt</strong> (Chrome, Safari, Edge, Cốc Cốc...).
+                </p>
+                <ul className="list-disc list-inside space-y-1 text-slate-500 pl-1">
+                  <li>Không cần cài đặt Node.js hay mở dòng lệnh.</li>
+                  <li>Nhạc đĩa than acoustic tự tổng hợp Web Audio API chạy mượt mà.</li>
+                  <li>Lưu bút và album lưu an toàn tại bộ nhớ trình duyệt (localStorage).</li>
+                </ul>
+              </div>
+
+              {/* Option 2: Upload to GitHub Pages */}
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-full bg-[#028090] text-white text-xs flex items-center justify-center font-bold">2</span>
+                  <h4 className="font-bold text-sm text-[#1E293B]">Đưa lên GitHub Pages (0 Đồng vĩnh viễn)</h4>
+                </div>
+                <p className="text-slate-600 leading-relaxed">
+                  Tải file <code className="bg-slate-200 px-1.5 py-0.5 rounded font-mono text-[#028090]">index.html</code> vào thư mục gốc của repository GitHub:
+                </p>
+                <ol className="list-decimal list-inside space-y-1 text-slate-600 pl-1">
+                  <li>Vào <strong>Settings</strong> trên GitHub repo của bạn.</li>
+                  <li>Chọn menu <strong>Pages</strong> ở cột bên trái.</li>
+                  <li>Tại <em>Branch</em>, chọn <strong>main</strong> và thư mục <strong>/(root)</strong> (hoặc <strong>/docs</strong>).</li>
+                  <li>Bấm <strong>Save</strong> ➔ Website sẽ online ngay tại <code className="text-[#006994] font-semibold">https://username.github.io/repo/</code>!</li>
+                </ol>
+              </div>
+            </div>
+
+            {/* Build command notice */}
+            <div className="p-3.5 rounded-xl bg-slate-100 border border-slate-200 font-mono text-[11px] text-slate-700">
+              <span className="text-slate-500 font-sans">Lệnh tạo lại tệp index.html duy nhất bất cứ lúc nào trong mã nguồn:</span>
+              <div className="mt-1 font-bold text-[#006994]">npm run build</div>
+              <span className="text-slate-500 font-sans text-[10px]">Tệp sẽ tự động xuất ra tại: <code className="text-slate-700">dist/index.html</code> và <code className="text-slate-700">docs/index.html</code>.</span>
+            </div>
+          </div>
+        )}
+
+        {/* TAB 2: Deploy Netlify / Vercel */}
         {activeTab === 'deploy' && (
           <div className="space-y-6 text-sm text-slate-700 font-sans">
             {/* Option A: Vercel */}
